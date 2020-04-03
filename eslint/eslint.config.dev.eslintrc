@@ -1,0 +1,30 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "curly": "error",
+    "indent": ["error", 4],
+    "func-names": 0,
+    "no-console": "off",
+    "no-param-reassign": [2, {
+        "props": false
+    }],
+    "consistent-return": "off",
+    "class-methods-use-this": "off",
+    "max-len": ["error", 130, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true,
+    }],
+    "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+  }
+}

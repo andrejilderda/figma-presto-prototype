@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Figma Presto UI prototype</title>
+</head>
+<body
+    x-data="{activeView: 'selection'}"
+    x-on:keydown.prevent.tab='activeView = (activeView === "actions" ? "selection" : "actions")'
+>
+    <div class='selection-view'>
+        <div class="selection-bar" x-data="{scope: 'artboard'}">
+            <ul class='selection'>
+                <li class='selection__item'>4</li>
+                <li class='selection__item'>*</li>
+            </ul>
+            <input
+                type='text'
+                class='selection-bar__input'
+                placeholder='Search by layer name or type...'
+                x-on:keydown.prevent.arrow-right='scope = (scope === "artboard" ? "page" : "artboard")'
+            >
+            <ul
+                class="selection-bar__scope"
+                x-on:click.prevent='scope = (scope === "artboard" ? "page" : "artboard")'
+            >
+                <li
+                    class='selection-bar__scope-item'
+                    x-show='scope === "artboard"'
+                    x-transition:enter='transition'
+                    x-transition:enter-start='transition-enter-start'
+                    x-transition:enter-end='transition-end'
+                    x-transition:leave='transition'
+                    x-transition:leave-start='transition-leave-start'
+                    x-transition:leave-end='transition-leave-end'
+                >
+                    Artboard
+                </li>
+                <li
+                    class="selection-bar__scope-item"
+                    x-show='scope === "page"'
+                    x-transition:enter='transition'
+                    x-transition:enter-start='transition-enter-start'
+                    x-transition:enter-end='transition-end'
+                    x-transition:leave='transition'
+                    x-transition:leave-start='transition-leave-start'
+                    x-transition:leave-end='transition-leave-end'
+                >
+                    Page
+                </li>
+            </ul>
+        </div>
+        <ul class='list  selection-view__list'>
+            <li class="hint">Pro tip: Use * for wildcard search</li>
+            <template
+                x-data="selectionItems"
+                x-for="item in selectionItems"
+                :key="item.id"
+            >
+                <li class='list__item'>
+                    <span x-show="item.icon === 'complex-vector'">
+                        <svg class="list__item-icon">
+                            <use xlink:href="#complex-vector"></use>
+                        </svg>
+                    </span>
+                    <span x-show="item.icon === 'component'">
+                        <svg class="list__item-icon">
+                            <use xlink:href="#component"></use>
+                        </svg>
+                    </span>
+                    <span x-show="item.icon === 'frame-top-level'">
+                        <svg class="list__item-icon">
+                            <use xlink:href="#frame-top-level"></use>
+                        </svg>
+                    </span>
+                    <span x-show="item.icon === 'group'">
+                        <svg class="list__item-icon">
+                            <use xlink:href="#group"></use>
+                        </svg>
+                    </span>
+                    <span x-show="item.icon === 'instance'">
+                        <svg class="list__item-icon">
+                            <use xlink:href="#instance"></use>
+                        </svg>
+                    </span>
+                    <span x-show="item.icon === 'mask'">
+                        <svg class="list__item-icon">
+                            <use xlink:href="#mask"></use>
+                        </svg>
+                    </span>
+                    <span x-show="item.icon === 'rectangle'">
+                        <svg class="list__item-icon">
+                            <use xlink:href="#rectangle"></use>
+                        </svg>
+                    </span>
+                    <span x-show="item.icon === 'slice'">
+                        <svg class="list__item-icon">
+                            <use xlink:href="#slice"></use>
+                        </svg>
+                    </span>
+                    <span x-show="item.icon === 'text'">
+                        <svg class="list__item-icon">
+                            <use xlink:href="#text"></use>
+                        </svg>
+                    </span>
+                    <span x-show="item.icon === 'vector-with-image-fill'">
+                        <svg class="list__item-icon">
+                            <use xlink:href="#vector-with-image-fill"></use>
+                        </svg>
+                    </span>
+                    <span x-text="item.label"></span>
+                </li>
+            </template>
+        </ul>
+    </div>
+
+    <a
+        class="actions-btn"
+        x-show='activeView === "selection"'
+        x-transition:enter='transition'
+        x-transition:enter-start='transition-enter-start'
+        x-transition:enter-end='transition-end'
+        x-transition:leave='transition'
+        x-transition:leave-start='transition-leave-start'
+        x-transition:leave-end='transition-leave-end'
+    >
+        <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.86506 11.3888H5.90376V6.52373H10.7688V5.47614H5.90376V0.611084H4.86506V5.47614H0V6.52373H4.86506V11.3888Z" fill="#808080" />
+        </svg>
+        Actions
+    </a>
+
+    <div
+        class="actions-view"
+        x-show='activeView === "actions"'
+        x-transition:enter='transition'
+        x-transition:enter-start='transition-enter-start'
+        x-transition:enter-end='transition-end'
+        x-transition:leave='transition'
+        x-transition:leave-start='transition-leave-start'
+        x-transition:leave-end='transition-leave-end'
+    >
+        <div
+            class="actions-input"
+            contentEditable="true"
+        ><span class="action action--is-valid"><span class="action__type" data-default-operator="">l</span>=200</span><span className="action__separator">,</span><span class="action action--is-valid"><span class="action__type" data-default-operator="=">l</span>200</span></span></span></div>
+
+        <ul class='list  actions-view__list'>
+            <template
+                x-data="actionItems"
+                x-for="item in actionItems"
+                :key="item.id"
+            >
+                <li class='list__item'>
+
+                    <span x-show="item.icon === 'a'"><svg class="list__item-icon">
+                        <use xlink:href="#a"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'b'"><svg class="list__item-icon">
+                        <use xlink:href="#b"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'border'"><svg class="list__item-icon">
+                        <use xlink:href="#border"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'color'"><svg class="list__item-icon">
+                        <use xlink:href="#color"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'corner-radius'"><svg class="list__item-icon">
+                        <use xlink:href="#corner-radius"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'font-size'"><svg class="list__item-icon">
+                        <use xlink:href="#font-size"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'h'"><svg class="list__item-icon">
+                        <use xlink:href="#h"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'l'"><svg class="list__item-icon">
+                        <use xlink:href="#l"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'line-height'"><svg class="list__item-icon">
+                        <use xlink:href="#line-height"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'opacity'"><svg class="list__item-icon">
+                        <use xlink:href="#opacity"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'r'"><svg class="list__item-icon">
+                        <use xlink:href="#r"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'rename-layer'"><svg class="list__item-icon">
+                        <use xlink:href="#rename-layer"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 't'"><svg class="list__item-icon">
+                        <use xlink:href="#t"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'text-case-lowercase'"><svg class="list__item-icon">
+                        <use xlink:href="#text-case-lowercase"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'text-case-title'"><svg class="list__item-icon">
+                        <use xlink:href="#text-case-title"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'text-case-uppercase'"><svg class="list__item-icon">
+                        <use xlink:href="#text-case-uppercase"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'text-value'"><svg class="list__item-icon">
+                        <use xlink:href="#text"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'w'"><svg class="list__item-icon">
+                        <use xlink:href="#w"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'x'"><svg class="list__item-icon">
+                        <use xlink:href="#x"></use>
+                    </svg>
+                    </span>
+                    <span x-show="item.icon === 'y'"><svg class="list__item-icon">
+                        <use xlink:href="#y"></use>
+                    </svg>
+                    </span>
+
+
+                    <span class="list__item-label" x-text="item.label"></span>
+                    <span class="list__item-notation" x-text="item.notation"></span>
+                </li>
+            </template>
+        </ul>
+    </div>
+
+    <script>
+        const selectionItems = [
+            {
+                id: '1',
+                label: 'Frame 8',
+                type: 'RECTANGLE',
+                icon: 'complex-vector'
+            },
+            {
+                id: '2',
+                label: 'row-alternative',
+                type: 'INSTANCE',
+                icon: 'component'
+            },
+            {
+                id: '3',
+                label: 'Group 6',
+                type: 'GROUP',
+                icon: 'frame-top-level'
+            },
+            {
+                id: '4',
+                label: 'Section title',
+                type: 'INSTANCE',
+                icon: 'group'
+            },
+            {
+                id: '5',
+                label: 'Floating title bar',
+                type: 'COMPONENT',
+                icon: 'instance'
+            },
+            {
+                id: '6',
+                label: 'Divider',
+                type: 'RECTANGLE',
+                icon: 'mask'
+            },
+            {
+                id: '7',
+                label: 'Group 7',
+                type: 'GROUP',
+                icon: 'rectangle'
+            },
+            {
+                id: '8',
+                label: 'row-alternative',
+                type: 'INSTANCE',
+                icon: 'slice'
+            },
+            {
+                id: '9',
+                label: 'Group 6',
+                type: 'GROUP',
+                icon: 'text'
+            },
+            {
+                id: '9',
+                label: 'Divider',
+                type: 'GROUP',
+                icon: 'vector-with-image-fill'
+            },
+        ];
+
+        const actionItems = [
+            {
+                id: '1',
+                label: 'Border',
+                icon: 'border',
+                notation: 'bdc'
+            },
+            {
+                id: '2',
+                label: 'Border-color',
+                icon: 'border',
+                notation: 'bdw'
+            },
+            {
+                id: '3',
+                label: 'Border-width',
+                icon: 'border',
+                notation: 'bd'
+            },
+            {
+                id: '4',
+                label: 'Bottom',
+                icon: 'b',
+                notation: 'b'
+            },
+            {
+                id: '5',
+                label: 'Color',
+                icon: 'color',
+                notation: 'c'
+            },
+            {
+                id: '6',
+                label: 'Corner radius',
+                icon: 'corner-radius',
+                notation: 'cr'
+            },
+            {
+                id: '7',
+                label: 'Fill color',
+                icon: 'color',
+                notation: 'f'
+            },
+            {
+                id: '8',
+                label: 'Font-size',
+                icon: 'font-size',
+                notation: 'fs'
+            },
+            {
+                id: '9',
+                label: 'Height',
+                icon: 'h',
+                notation: 'h'
+            },
+            {
+                id: '10',
+                label: 'Left',
+                icon: 'l',
+                notation: 'l'
+            },
+            {
+                id: '11',
+                label: 'Line-height',
+                icon: 'line-height',
+                notation: 'lh'
+            },
+            {
+                id: '12',
+                label: 'Move X',
+                icon: 'x',
+                notation: 'x'
+            },
+            {
+                id: '13',
+                label: 'Move Y',
+                icon: 'y',
+                notation: 'y'
+            },
+            {
+                id: '14',
+                label: 'Opacity',
+                icon: 'opacity',
+                notation: 'o'
+            },
+            {
+                id: '15',
+                label: 'Rename layer',
+                icon: 'rename-layer',
+                notation: 'n'
+            },
+            {
+                id: '16',
+                label: 'Resize all directions',
+                icon: 'a',
+                notation: 'a'
+            },
+            {
+                id: '17',
+                label: 'Right',
+                icon: 'r',
+                notation: 'r'
+            },
+            {
+                id: '18',
+                label: 'Text value',
+                icon: 'text-value',
+                notation: 'v'
+            },
+            {
+                id: '19',
+                label: 'Text-case: lowercase',
+                icon: 'text-case-lowercase',
+                notation: 'tcl'
+            },
+            {
+                id: '20',
+                label: 'Text-case: original',
+                icon: 'text-case-title',
+                notation: 'tco'
+            },
+            {
+                id: '21',
+                label: 'Text-case: title',
+                icon: 'text-case-title',
+                notation: 'tct'
+            },
+            {
+                id: '22',
+                label: 'Text-case: uppercase',
+                icon: 'text-case-uppercase',
+                notation: 'tcu'
+            },
+            {
+                id: '23',
+                label: 'Top',
+                icon: 't',
+                notation: 't'
+            },
+            {
+                id: '24',
+                label: 'Width',
+                icon: 'w',
+                notation: 'w'
+            },
+        ]
+    </script>
+    <svg width="0" height="0" class="hidden">
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="a">
+            <path d="M6.58 13l.72-2.152h3.281L11.306 13h1.687L9.916 4.273H7.965L4.892 13H6.58zm1.146-3.422l1.18-3.516h.069l1.18 3.516H7.726z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="b">
+            <path d="M5.857 13H9.39c1.999 0 2.979-1.018 2.979-2.378 0-1.32-.938-2.096-1.867-2.143v-.086c.853-.2 1.526-.796 1.526-1.858 0-1.3-.938-2.262-2.83-2.262h-3.34V13zm1.581-1.321V9.122h1.743c.976 0 1.581.597 1.581 1.377 0 .694-.477 1.18-1.623 1.18h-1.7zm0-3.695V5.577h1.598c.93 0 1.41.49 1.41 1.163 0 .767-.621 1.244-1.444 1.244H7.438z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="border">
+            <path d="M1.5 3h15v1h-15V3zm0 4h15v2h-15V7zm15 5h-15v3h15v-3z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="color">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.504 3.26a2.045 2.045 0 1 1 2.893 2.892L11.72 8.828l.844.844a.75.75 0 1 1-1.06 1.06l-.845-.843-4.508 4.507a2.045 2.045 0 0 1-2.892-2.892l4.508-4.508-.844-.844a.75.75 0 0 1 1.06-1.06l.844.843.386-.385.019-.02 2.271-2.27zM9.6 8.828l-.772-.772-4.508 4.508a.545.545 0 1 0 .772.772L9.6 8.828z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="complex-vector">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M4.315 6.336l-.479-.143-.15.503.479.143.15-.503zm.3-1.006l-.479-.143-.15.503.479.143.15-.503zm-.328-.646l.479.143.15-.503-.479-.143-.15.503zm.93-1.365l-.479-.143-.15.503.479.143.15-.503zm5.566 9.393l.479.143.15-.503-.479-.143-.15.503zm.93-1.365l-.479-.143-.15.503.479.143.15-.503zm-.328-.646l.479.143.15-.503-.479-.143-.15.503zm.3-1.006l.479.143.15-.503-.479-.143-.15.503zM5.5 3.25a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm0-2a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zm5 11.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5zm0 2a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zM13.5 3A1.5 1.5 0 0 0 12 4.5c0 .455.206.857.526 1.132-.011-.009-.025-.013-.036-.023a29.22 29.22 0 0 1-.93 1.904C10.068 10.285 9.223 10.5 9 10.5c-.093 0-.266 0-.387-.546C8.5 9.445 8.5 8.711 8.5 8c0-.764 0-1.555-.137-2.171C8.119 4.731 7.487 4.5 7 4.5c-.934 0-1.935.93-3.049 2.823l-.416-.125-.15.503.301.09c-.042.076-.083.143-.126.222-.046.085-.083.165-.127.25l-.198-.059-.15.503.106.032c-.081.163-.162.321-.236.477l-.02-.006-.041.139c-.106.225-.216.456-.305.655.016.001.03.009.045.011C2.588 10.009 2.546 10 2.5 10A1.5 1.5 0 1 0 4 11.5a1.49 1.49 0 0 0-.526-1.132c.011.009.026.014.036.023a29.22 29.22 0 0 1 .93-1.904C5.932 5.715 6.777 5.5 7 5.5c.093 0 .266 0 .387.546C7.5 6.555 7.5 7.29 7.5 8c0 .764 0 1.555.137 2.171C7.881 11.269 8.513 11.5 9 11.5c.93 0 1.926-.921 3.034-2.796l.432.129.15-.503-.316-.095c.047-.085.093-.16.141-.249.041-.076.074-.147.114-.223l.212.063.15-.503-.12-.036c.081-.162.163-.321.237-.477l.033.01.068-.226c.096-.205.197-.417.279-.599-.016-.001-.029-.009-.045-.011.043.007.086.016.131.016a1.5 1.5 0 0 0 0-3zm-10 8.5c0 .551-.449 1-1 1-.551 0-1-.449-1-1 0-.551.449-1 1-1 .551 0 1 .449 1 1zm10-6c-.551 0-1-.449-1-1 0-.551.449-1 1-1 .551 0 1 .449 1 1 0 .551-.449 1-1 1z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="component">
+            <path d="M6.243 5.248L8.5 3l2.257 2.248L8.5 7.496 6.243 5.248zm-.995 5.509L3 8.5l2.248-2.257L7.496 8.5l-2.248 2.257zm5.509.995L8.5 14l-2.257-2.248L8.5 9.504l2.257 2.248zM14 8.5l-2.248-2.257L9.504 8.5l2.248 2.257L14 8.5z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="corner-radius">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M2.026 2.026a2.437 2.437 0 0 1 1.724-.713H6v1.875H3.75a.563.563 0 0 0-.563.562V6H1.313V3.75c0-.646.256-1.266.713-1.724zM12 1.313h2.25a2.437 2.437 0 0 1 2.438 2.437V6h-1.875V3.75a.563.563 0 0 0-.563-.563H12V1.313zM1.312 14.25V12h1.875v2.25a.562.562 0 0 0 .563.563H6v1.874H3.75a2.438 2.438 0 0 1-2.438-2.437zM16.688 12v2.25a2.438 2.438 0 0 1-2.438 2.438H12v-1.875h2.25a.562.562 0 0 0 .563-.563V12h1.874z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="font-size">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.647 4.313H4.648l-3.412 9.75h1.867l.788-2.25h3.514l.787 2.25h1.867l-3.412-9.75zm.101 5.625H4.547l1.1-3.145 1.101 3.144zm7.981-.768c0 .013 0 .022-.002.029a.53.53 0 0 1-.124.044c-.114.028-.27.051-.492.077l-.227.026c-.168.019-.36.04-.569.067-.62.08-1.345.196-1.916.52a1.993 1.993 0 0 0-.743.705c-.188.313-.287.69-.287 1.133 0 .765.3 1.39.802 1.817.496.423 1.164.633 1.876.633.731 0 1.286-.22 1.682-.51v.351h1.787V9.24c0-1.184-.461-1.909-1.098-2.315-.607-.388-1.319-.45-1.773-.45-1.092 0-2.44.38-3.052 1.809l-.157.367 1.682.6.144-.31c.173-.373.59-.802 1.418-.802.413 0 .66.108.806.252.144.143.243.377.243.744v.035zm-.36 1.747a6.27 6.27 0 0 0 .36-.071v.398c0 .627-.49 1.295-1.524 1.295-.364 0-.634-.082-.802-.204a.584.584 0 0 1-.247-.51c0-.134.03-.232.074-.308a.598.598 0 0 1 .21-.202c.21-.13.525-.21.917-.261h.001l.105-.013c.229-.027.58-.068.907-.124z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="frame-top-level">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6 2.5V5h4V2.5h1V5h2.5v1H11v4h2.5v1H11v2.5h-1V11H6v2.5H5V11H2.5v-1H5V6H2.5V5H5V2.5h1zm4 7.5V6H6v4h4z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="group">
+            <path d="M9 3H7v1h2V3zm2.5 9h.5v-.5h1V13h-1.5v-1zM4 7v2H3V7h1zm8-2.5V4h-.5V3H13v1.5h-1zM12 7v2h1V7h-1zM4 4.5V4h.5V3H3v1.5h1zm-1 7h1v.5h.5v1H3v-1.5zm6 .5H7v1h2v-1z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="h">
+            <path d="M5.336 13h1.58V9.293h4.045V13h1.585V4.273h-1.585v3.694H6.917V4.273H5.336V13z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="instance">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.828 8L8 1.828 14.172 8 8 14.172 1.828 8zM8 12.828L12.828 8 8 3.172 3.172 8 8 12.828z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="l">
+            <path d="M6.402 13h5.425v-1.325H7.983V4.273h-1.58V13z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="line-height">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M15.91 1.875H2.25V.75h13.66v1.125zm-6.83.594l2.349 2.349-.796.795-.99-.99v4.113l.99-.991.796.795-2.35 2.35-2.348-2.35.795-.795.991.991V4.622l-.99.991-.796-.795 2.349-2.35zm6.83 9.014v1.125H2.25v-1.125h13.66zm0 3.903v1.125H2.25v-1.125h13.66z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="mask">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M8 2.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM6.86 3.646a4.5 4.5 0 1 1 0 8.709A5.49 5.49 0 0 0 9 8a5.49 5.49 0 0 0-2.14-4.354z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="opacity">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.102 3.001c.366.38.713.738 1.04 1.079C12.847 6.9 14.2 8.51 14.2 10.46a5.354 5.354 0 0 1-1.494 3.744 4.98 4.98 0 0 1-7.212 0A5.354 5.354 0 0 1 4 10.461C4 8.51 5.353 6.9 8.058 4.08c.327-.341.674-.7 1.04-1.079L9.1 3l.002.001zM6.482 8.12C7.086 7.302 7.94 6.373 9.1 5.16c1.161 1.212 2.014 2.14 2.618 2.959.75 1.016.982 1.692.982 2.34v.004c0 .062-.001.124-.004.186H5.504a3.997 3.997 0 0 1-.004-.186v-.003c0-.649.233-1.325.982-2.341z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="r">
+            <path d="M5.898 13H7.48V9.804h1.61L10.803 13h1.764L10.68 9.54c1.027-.414 1.568-1.291 1.568-2.476 0-1.666-1.074-2.791-3.077-2.791H5.898V13zM7.48 8.491V5.594h1.45c1.18 0 1.708.54 1.708 1.47 0 .929-.528 1.427-1.7 1.427H7.479z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="rectangle">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5zm6 1H5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="rename-layer">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.078 3.44l-7.7 7.701a.75.75 0 0 0-.194.333l-.908 3.329a.75.75 0 0 0 .921.92l3.329-.907a.75.75 0 0 0 .333-.194l8.17-8.17a2.461 2.461 0 1 0-3.481-3.481l-.452.451a.45.45 0 0 0-.018.018zm1.842.383a.962.962 0 0 1 1.115 1.495l-1.353-1.353a.96.96 0 0 1 .238-.142zm-1.303 1.2l1.36 1.36L5.94 13.42l-1.87.51.51-1.87 7.038-7.039z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="slice">
+            <path d="M10 3H6v1h4V3zM4 4V3H3v1h1zM3 6h1v4H3V6zm9 0h1v4h-1V6zm1-2h-1V3h1v1zm-7 8h4v1H6v-1zm-2 0H3v1h1v-1zm8 1v-1h1v1h-1z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="t">
+            <path d="M5.456 5.598h2.698V13h1.568V5.598h2.697V4.273H5.456v1.325z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="text-case-lowercase">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.28 4.313H9.493v9.75h1.752v-.476c.029.027.06.054.091.08.369.304.888.536 1.625.536.952 0 1.775-.385 2.354-1.08.574-.688.886-1.654.886-2.793 0-1.13-.313-2.092-.89-2.779-.58-.692-1.408-1.076-2.367-1.076-.745 0-1.262.231-1.625.535a1.825 1.825 0 0 0-.04.034V4.313zm.402 4.389c.251-.344.62-.546 1.139-.546.539 0 .917.22 1.174.576.268.371.42.92.42 1.58 0 .67-.156 1.232-.428 1.616-.262.37-.642.593-1.166.593-.504 0-.874-.205-1.13-.562-.268-.371-.429-.931-.429-1.646 0-.708.157-1.253.42-1.611zM5.338 6.475c-1.092 0-2.44.38-3.052 1.809l-.157.367 1.682.6.144-.31c.174-.373.59-.802 1.418-.802.413 0 .66.108.806.252.144.143.243.377.243.744v.035c0 .013 0 .022-.002.029a.531.531 0 0 1-.124.044c-.114.028-.27.051-.492.077l-.227.026c-.168.019-.359.04-.569.067-.62.08-1.345.196-1.916.52a1.993 1.993 0 0 0-.743.705c-.188.313-.287.69-.287 1.133 0 .765.3 1.39.802 1.817.496.423 1.164.633 1.876.633.732 0 1.286-.22 1.682-.51v.351h1.787V9.24c0-1.184-.461-1.909-1.098-2.315-.607-.388-1.319-.45-1.773-.45zm.725 4.442a5.56 5.56 0 0 0 .359-.071v.398c0 .627-.49 1.295-1.524 1.295-.363 0-.633-.082-.802-.204-.153-.11-.246-.269-.246-.51 0-.134.028-.232.073-.308a.597.597 0 0 1 .21-.202c.21-.13.525-.21.917-.261l.106-.013c.229-.027.58-.068.907-.124z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="text-case-title">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.21 4.313h-1.875v9.75h1.84v-.476c.043.04.089.079.137.117.367.286.874.5 1.58.5.952 0 1.775-.386 2.354-1.08.574-.69.886-1.655.886-2.794 0-1.13-.313-2.092-.89-2.779-.58-.692-1.408-1.076-2.368-1.076-.69 0-1.184.198-1.545.472a2.198 2.198 0 0 0-.119.097V4.313zm.402 4.389c.252-.344.62-.546 1.14-.546.538 0 .917.22 1.174.576.267.371.42.92.42 1.58 0 .67-.157 1.232-.428 1.616-.262.37-.643.593-1.167.593-.503 0-.873-.205-1.13-.562-.267-.371-.428-.931-.428-1.646 0-.708.157-1.253.42-1.611zM6.647 4.313H4.648l-3.412 9.75h1.867l.788-2.25h3.514l.787 2.25h1.867l-3.412-9.75zm.101 5.625H4.547l1.1-3.145 1.101 3.144z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="text-case-uppercase">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.647 4.313H4.648l-3.412 9.75h1.867l.788-2.25h3.514l.787 2.25h1.867l-3.412-9.75zm.101 5.625H4.547l1.1-3.145 1.101 3.144zm7.109-5.625h-3.522v9.75h3.627c1.12 0 1.972-.273 2.549-.782.582-.514.832-1.224.832-1.984 0-1.143-.566-1.948-1.261-2.346.134-.091.26-.2.374-.326.338-.377.535-.887.535-1.547 0-.743-.25-1.446-.79-1.961-.542-.515-1.333-.804-2.344-.804zM12.21 8.268v-2.08h1.682c.523 0 .83.11 1.001.25.158.13.252.327.252.64 0 .375-.138.663-.356.86-.223.2-.553.33-.967.33H12.21zm0 3.92V9.966h1.805c.5 0 .852.166 1.078.397.228.233.355.562.355.933 0 .285-.103.483-.3.624-.217.154-.585.267-1.15.267H12.21z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="text">
+            <path d="M3 3h10v3h-1V4H8.5v8H10v1H6v-1h1.5V4H4v2H3V3z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="text-value">
+            <path d="M3 3h12v2.72h-1.5V4.5H9.75v9h1.219V15H7.03v-1.5h1.22v-9H4.5v1.22H3V3z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="vector-with-image-fill">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm-1 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" fill="currentColor"></path>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M3 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3zm10 1H3v6.293l2.5-2.5L11.707 13H13V3zM3 13v-2.293l2.5-2.5L10.293 13H3z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="w">
+            <path d="M5.596 13h1.56l1.751-6.124h.069L10.723 13h1.56l2.463-8.727h-1.7l-1.573 6.417h-.077L9.713 4.273H8.166l-1.679 6.413h-.081L4.834 4.273h-1.7L5.595 13z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="x">
+            <path d="M6.98 4.273H5.167L7.89 8.636 5.134 13h1.824L8.9 9.825h.068L10.912 13h1.833l-2.732-4.364 2.69-4.363H10.9L8.97 7.469H8.9L6.98 4.273z" fill="currentColor"></path>
+        </symbol>
+        <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="y">
+            <path d="M4.98 4.273l3.174 5.471V13h1.577V9.744l3.175-5.471H11.12l-2.135 3.86H8.9l-2.135-3.86H4.979z" fill="currentColor"></path>
+        </symbol>
+    </svg>
+</body>
+</html>

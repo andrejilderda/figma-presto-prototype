@@ -1,0 +1,410 @@
+// COMPONENTS
+// @import "components/components.example.button";
+@import "settings/settings.global";
+@import "tools/tools.mixins";
+
+$colorBackgroundHUD: #222222;
+$colorBackgroundToolbar: #2C2C2C;
+$colorBlack30: rgba(0, 0, 0, 0.3);
+$colorSpecialWhite2: rgba(255, 255, 255, 0.2);
+$colorSpecialWhite4: rgba(255, 255, 255, 0.4);
+$colorSpecialBlack1: rgba(0, 0, 0, 0.1);
+$colorDark: #333;
+$colorBlue: #18A0FB;
+$colorBlueLight: #C8E8FE;
+$backgroundColor: $colorBackgroundToolbar;
+$caretColor: $colorBlue;
+
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+html {
+    background: $backgroundColor;
+    color: #fff;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-size: 1em;
+    overflow: hidden;
+}
+
+body {
+    font-family: "Inter", -apple-system, "Helvetica Neue", sans-serif;
+}
+
+ul {
+    @include bare-list;
+}
+
+.selection-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+
+    &__list {
+        &::after {
+            content: '';
+            height: 80px;
+            width: 100%;
+        }
+    }
+}
+
+.selection-bar {
+    background-color: $colorBackgroundHUD;
+    align-items: center;
+    display: flex;
+    flex: 0 1 auto;
+    height: 60px;
+    overflow: hidden;
+    padding-left: 12px;
+    padding-right: 16px;
+    position: relative;
+    z-index: 1;
+
+    &__input {
+        background: none;
+        border: none;
+        outline: none;
+        caret-color: $caretColor;
+        color: #fff;
+        flex: 1;
+        font-size: 1.125rem;
+        margin-left: 4px;
+
+        &::placeholder {
+            color: $colorSpecialWhite2;
+        }
+    }
+
+    &__scope {
+        color: $colorSpecialWhite4;
+        position: relative;
+        cursor: pointer;
+        font-size: 13px;
+
+        &-item {
+            position: absolute;
+            transition: .3s transform $easeOutExpo, .3s opacity $easeOutExpo;
+            right: 0;
+            top: 0;
+            transform: translateY(-50%) translateX(0);
+            display: block;
+
+            &.transition-enter-start {
+                opacity: 0;
+                transform: translateY(-50%) translateX(-25%);
+            }
+
+            &.transition-enter-end {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0%);
+            }
+
+            &.transition-leave-start {
+                opacity: 0;
+                transform: translateY(-50%) translateX(0%);
+            }
+
+            &.transition-leave-end {
+                opacity: 0;
+                transform: translateY(-50%) translateX(10%);
+            }
+        }
+    }
+}
+
+.selection {
+    align-items: stretch;
+    background: $colorDark;
+    border-radius: 2px;
+    display: flex;
+    font-size: .8rem;
+    height: 24px;
+    margin-right: 6.5px;
+
+    &__item {
+        border-right: 1px solid $colorBackgroundHUD;
+        line-height: 1.5rem;
+        padding-left: 8px;
+        padding-right: 8px;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+}
+
+.list {
+    $el: '.list';
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+
+    &__item {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        flex: 0 0 auto;
+        flex-wrap: nowrap;
+        height: 40px;
+        font-size: .875rem;
+        padding: 10px 16px;
+        position: relative;
+
+        &:last-child::after {
+            content: '';
+            height: 80px; // space for actions button
+            left: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 40px;
+            width: 100%;
+        }
+
+        &-icon {
+            margin-right: 16px;
+
+            .selection-view__list & {
+                color: $colorSpecialWhite4;
+                height: 16px;
+                width: 16px;
+            }
+
+            .actions-view__list & {
+                color: #C4C4C4;
+                height: 18px;
+                width: 18px;
+            }
+        }
+
+        &.is-active,
+        &:hover {
+            background: $colorBlue;
+            color: #fff;
+
+            svg * {
+                fill: #0479C8;
+            }
+
+            #{$el}__item-icon {
+                color: #fff;
+
+                .actions-view__list & {
+                    color: #0479C8;
+                }
+            }
+
+
+            #{$el}__item-notation {
+                background-color: #0492F1;
+                color: #fff;
+            }
+        }
+    }
+
+    &__item-label {
+        flex: 1;
+    }
+
+
+    &__item-notation {
+        background: rgba(0, 0 , 0, .05);
+        border-radius: 2px;
+        color: $colorBlack30;
+        font-size: .75rem;
+        line-height: 24px;
+        text-align: center;
+        width: 32px;
+    }
+}
+
+.actions-btn {
+    align-items: center;
+    background: #fff;
+    border-radius: 100px;
+    bottom: 24px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    color: $backgroundColor;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    font-size: .875rem;
+    font-weight: 500;
+    height: 36px;
+    left: 50%;
+    padding: 5px 20px 6px;
+    position: fixed;
+    transform: translateY(0%) translateX(-50%);
+    transition: .2s transform $easeOutExpo,
+    .2s opacity $easeOutExpo;
+
+    &:hover {
+        background-color: $colorBlue;
+        box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.15);
+        color: #fff;
+        transform: translateX(-50%) scale(.975);
+
+        path {
+            fill: #fff;
+            opacity: .6;
+        }
+    }
+
+    &.transition-enter-start {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    &.transition-enter-end {
+        opacity: 1;
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    &.transition-leave-start {
+        opacity: 1;
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    &.transition-leave-end {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    svg {
+        margin-right: 10px;
+    }
+}
+
+.hint {
+    color: $colorSpecialWhite2;
+    font-size: .625rem;
+    line-height: 1.5rem;
+    margin-left: 16px;
+}
+
+.actions-view {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    color: $backgroundColor;
+    height: calc(100% - 60px);
+    bottom: 0;
+    top: 60px;
+    left: 0;
+    right: 0;
+    margin: 0 12px;
+    transition: .3s transform $easeOutExpo,
+                .3s opacity $easeOutExpo;
+    z-index: 0;
+
+    &:before {
+        content: '';
+        background: $colorBackgroundHUD;
+        left: -12px;
+        position: fixed;
+        right: -17px;
+        top: -60px;
+        bottom: 0;
+        z-index: -1;
+    }
+
+    &.transition-enter-start {
+        opacity: 0;
+        transform: translateY(10%);
+    }
+
+    &.transition-enter-end {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+
+    &.transition-leave-start {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+
+    &.transition-leave-end {
+        opacity: 0;
+        transform: translateY(10%);
+    }
+
+    &__list {
+        background: #fff;
+    }
+}
+
+
+.actions-input {
+    align-items: center;
+    background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 4px 4px 0 0;
+    caret-color: $caretColor;
+    color: #fff;
+    display: flex;
+    font-size: 18px;
+    height: 56px;
+    letter-spacing: -0.001em;
+    line-height: 24px;
+    margin: 0;
+    outline: 0;
+    padding: 0 16px 0;
+    white-space: pre-wrap;
+    width: 100%;
+
+    // previous input is selected by default, so that it is easily overwritten
+    // with these rules we hide the selection background color so that you
+    // can't visually see it's selected.
+    // This class is removed when user is typing.
+    &.previous-user-input::selection,
+    &.previous-user-input *::selection {
+        background: rgba(0, 0, 0, 0);
+    }
+}
+
+.action {
+    $el: '.action';
+    display: inline-block;
+
+    &--is-valid {
+        background: $colorBlueLight;
+        color: $colorBlue;
+        border-radius: 3px;
+        display: inline-block;
+        margin-top: -4px;
+        padding: 4px;
+
+        &#{$el}--layer-select {
+            color: #fff;
+        }
+    }
+
+    &__type {
+        display: inline-block;
+
+        &:after {
+            content: attr(data-default-operator);
+            color: rgba($colorBlue, 0.4);
+        }
+    }
+}
+
+[contenteditable=true]:empty:before {
+    color: lighten($backgroundColor, 15%);
+    content: attr(placeholder);
+    display: block;
+    /* For Firefox */
+}
+
+.hidden {
+    display: none;
+}
