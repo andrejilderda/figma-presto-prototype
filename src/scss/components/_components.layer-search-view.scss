@@ -1,0 +1,115 @@
+.layer-search-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.layer-search-bar {
+    background-color: $colorBackgroundHUD;
+    align-items: center;
+    display: flex;
+    flex: 0 1 auto;
+    height: 60px;
+    overflow: hidden;
+    padding-left: 12px;
+    padding-right: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.layer-search-scope {
+    color: $colorSpecialWhite4;
+    position: relative;
+    cursor: pointer;
+    font-size: 13px;
+
+    &__item {
+        position: absolute;
+        transition: .3s transform $easeOutExpo, .3s opacity $easeOutExpo;
+        right: 0;
+        top: 0;
+        transform: translateY(-50%) translateX(0);
+        display: block;
+
+        &.transition-enter-start {
+            opacity: 0;
+            transform: translateY(-50%) translateX(-25%);
+        }
+
+        &.transition-enter-end {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0%);
+        }
+
+        &.transition-leave-start {
+            opacity: 0;
+            transform: translateY(-50%) translateX(0%);
+        }
+
+        &.transition-leave-end {
+            opacity: 0;
+            transform: translateY(-50%) translateX(10%);
+        }
+    }
+}
+
+.layer-search-input {
+    background: none;
+    border: none;
+    outline: none;
+    caret-color: $caretColor;
+    color: #fff;
+    flex: 1;
+    font-size: 1.125rem;
+    margin-left: 4px;
+
+    &::placeholder {
+        color: $colorSpecialWhite2;
+    }
+}
+
+.layer-selection {
+    $el: '.layer-selection';
+
+    align-items: stretch;
+    background: $colorDark;
+    border-radius: 2px;
+    display: flex;
+    font-size: .8rem;
+    height: 24px;
+    margin-right: 6.5px;
+    overflow: hidden;
+
+    &__item {
+        display: flex;
+        line-height: 1.5rem;
+        overflow: hidden;
+        padding-left: 8px;
+        padding-right: 8px;
+
+        &:last-child {
+            border-right: none;
+        }
+
+        &.is-selected {
+            background-color: $colorBlue;
+        }
+    }
+
+    // &__label {}
+
+    &__description {
+        display: inline-block;
+        overflow: hidden;
+        transition: .3s width $easeOutExpo,
+            .3s opacity $easeOutExpo;
+        opacity: 0;
+        white-space: nowrap;
+        width: 0;
+
+        #{$el}__item.is-selected & {
+            opacity: 1;
+        }
+    }
+}

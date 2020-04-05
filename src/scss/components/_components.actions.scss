@@ -1,0 +1,157 @@
+.actions-view {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    color: $backgroundColor;
+    height: calc(100% - 60px);
+    bottom: 0;
+    top: 60px;
+    left: 0;
+    right: 0;
+    margin: 0 12px;
+    transition: .3s transform $easeOutExpo,
+        .3s opacity $easeOutExpo;
+    z-index: 0;
+
+    &:before {
+        content: '';
+        background: $colorBackgroundHUD;
+        left: -12px;
+        position: fixed;
+        right: -12px;
+        top: -60px;
+        bottom: 0;
+        z-index: -1;
+    }
+
+    &.transition-enter-start {
+        opacity: 0;
+        transform: translateY(10%);
+    }
+
+    &.transition-enter-end {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+
+    &.transition-leave-start {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+
+    &.transition-leave-end {
+        opacity: 0;
+        transform: translateY(10%);
+    }
+}
+
+.actions-btn {
+    align-items: center;
+    background: #fff;
+    border-radius: 100px;
+    bottom: 24px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    color: $backgroundColor;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    font-size: .875rem;
+    font-weight: 500;
+    height: 36px;
+    left: 50%;
+    padding: 5px 20px 6px;
+    position: fixed;
+    transform: translateY(0%) translateX(-50%);
+    transition: .2s transform $easeOutExpo,
+        .2s opacity $easeOutExpo;
+
+    &:hover {
+        background-color: $colorBlue;
+        box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.15);
+        color: #fff;
+        transform: translateX(-50%) scale(.975);
+
+        path {
+            fill: #fff;
+            opacity: .6;
+        }
+    }
+
+    &.transition-enter-start {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    &.transition-enter-end {
+        opacity: 1;
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    &.transition-leave-start {
+        opacity: 1;
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    &.transition-leave-end {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    svg {
+        margin-right: 10px;
+    }
+}
+
+.actions-input {
+    align-items: center;
+    background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 4px 4px 0 0;
+    caret-color: $caretColor;
+    color: #fff;
+    display: flex;
+    font-size: 18px;
+    height: 56px;
+    letter-spacing: -0.001em;
+    line-height: 24px;
+    outline: 0;
+    padding: 0 16px 0;
+    white-space: pre-wrap;
+    width: 100%;
+
+    // previous input is selected by default, so that it is easily overwritten
+    // with these rules we hide the selection background color so that you
+    // can't visually see it's selected.
+    // This class is removed when user is typing.
+    &.previous-user-input::selection,
+    &.previous-user-input *::selection {
+        background: rgba(0, 0, 0, 0);
+    }
+}
+
+.action-node {
+    $el: '.action-node';
+    display: inline-block;
+
+    &--is-valid {
+        background: $colorBlueLight;
+        color: $colorBlue;
+        border-radius: 3px;
+        display: inline-block;
+        margin-top: -4px;
+        padding: 4px;
+
+        &#{$el}--layer-select {
+            color: #fff;
+        }
+    }
+
+    &__type {
+        display: inline-block;
+
+        &:after {
+            content: attr(data-default-operator);
+            color: rgba($colorBlue, 0.4);
+        }
+    }
+}

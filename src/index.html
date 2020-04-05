@@ -9,24 +9,42 @@
     x-data="{activeView: 'selection'}"
     x-on:keydown.prevent.tab='activeView = (activeView === "actions" ? "selection" : "actions")'
 >
-    <div class='selection-view'>
-        <div class="selection-bar" x-data="{scope: 'artboard'}">
-            <ul class='selection'>
-                <li class='selection__item'>4</li>
-                <li class='selection__item'>*</li>
+    <div class='layer-search-view'>
+        <div class="layer-search-bar" x-data="{scope: 'artboard', selectionSelected: false, width: '35px'}">
+            <ul class='layer-selection'>
+                <li class='layer-selection__item'>
+                    <span class="layer-selection__label">4</span>
+                    <!-- TODO: Use scrollWidth to set size -->
+                    <span class="layer-selection__description">&nbsp; layers selected</span>
+                </li>
+                <li
+                    class='layer-selection__item'
+                    :class='{"is-selected": selectionSelected}'
+                >
+                    <span class="layer-selection__label">*</span>
+                    <span
+                        class="layer-selection__description"
+                        :style="selectionSelected ? `width: ${width}` : ''"
+                    >
+                        icon-&nbsp;
+                    </span>
+                </li>
             </ul>
+
             <input
                 type='text'
-                class='selection-bar__input'
+                class='layer-search-input'
                 placeholder='Search by layer name or type...'
+                autofocus
                 x-on:keydown.prevent.arrow-right='scope = (scope === "artboard" ? "page" : "artboard")'
+                x-on:keydown.prevent.arrow-left='selectionSelected = !selectionSelected'
             >
             <ul
-                class="selection-bar__scope"
+                class="layer-search-scope"
                 x-on:click.prevent='scope = (scope === "artboard" ? "page" : "artboard")'
             >
                 <li
-                    class='selection-bar__scope-item'
+                    class='layer-search-scope__item'
                     x-show='scope === "artboard"'
                     x-transition:enter='transition'
                     x-transition:enter-start='transition-enter-start'
@@ -38,7 +56,7 @@
                     Artboard
                 </li>
                 <li
-                    class="selection-bar__scope-item"
+                    class="layer-search-scope__item"
                     x-show='scope === "page"'
                     x-transition:enter='transition'
                     x-transition:enter-start='transition-enter-start'
@@ -51,7 +69,7 @@
                 </li>
             </ul>
         </div>
-        <ul class='list  selection-view__list'>
+        <ul class='list list--layer-search'>
             <li class="hint">Pro tip: Use * for wildcard search</li>
             <template
                 x-data="selectionItems"
@@ -144,9 +162,9 @@
         <div
             class="actions-input"
             contentEditable="true"
-        ><span class="action action--is-valid"><span class="action__type" data-default-operator="">l</span>=200</span><span className="action__separator">,</span><span class="action action--is-valid"><span class="action__type" data-default-operator="=">l</span>200</span></span></span></div>
+        ><span class="action-node action-node--is-valid"><span class="action-node__type" data-default-operator="">l</span>=200</span><span className="action-node__separator">,</span><span class="action-node action-node--is-valid"><span class="action-node__type" data-default-operator="=">l</span>200</span></span></span></div>
 
-        <ul class='list  actions-view__list'>
+        <ul class='list  list--actions'>
             <template
                 x-data="actionItems"
                 x-for="item in actionItems"
@@ -454,7 +472,8 @@
             },
         ]
     </script>
-    <svg width="0" height="0" class="hidden">
+
+    <svg width="0" height="0" class="d-none">
         <symbol viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" id="a">
             <path d="M6.58 13l.72-2.152h3.281L11.306 13h1.687L9.916 4.273H7.965L4.892 13H6.58zm1.146-3.422l1.18-3.516h.069l1.18 3.516H7.726z" fill="currentColor"></path>
         </symbol>

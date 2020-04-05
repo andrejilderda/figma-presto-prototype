@@ -1,0 +1,103 @@
+.list {
+    $el: '.list';
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+
+    &--actions {
+        background: #fff;
+        padding-top: 8px;
+
+        #{$el}__item-icon {
+            color: #C4C4C4;
+            height: 18px;
+            width: 18px;
+        }
+    }
+
+    &--layer-search {
+        &::after {
+            content: '';
+            height: 80px;
+            width: 100%;
+        }
+
+        #{$el}__item {
+            &:last-child::after {
+                height: 80px; // extra space for actions button
+                pointer-events: none;
+                position: absolute;
+                top: 40px;
+                width: 100%;
+            }
+
+        }
+        #{$el}__item-icon {
+            color: $colorSpecialWhite4;
+            height: 16px;
+            width: 16px;
+        }
+    }
+
+    &__item {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        flex: 0 0 auto;
+        flex-wrap: nowrap;
+        height: 40px;
+        font-size: .875rem;
+        padding: 10px 16px;
+        position: relative;
+
+        &:last-child::after {
+            content: '';
+            height: 8px;
+            left: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 40px;
+            width: 100%;
+        }
+
+        &.is-active,
+        &:hover {
+            background: $colorBlue;
+            color: #fff;
+
+            svg * {
+                fill: #0479C8;
+            }
+
+            #{$el}__item-icon {
+                color: #fff;
+            }
+
+            #{$el}__item-notation {
+                background-color: #0492F1;
+                color: #fff;
+            }
+        }
+    }
+
+    &__item-icon {
+        margin-right: 16px;
+    }
+
+    &__item-label {
+        flex: 1;
+    }
+
+
+    &__item-notation {
+        background: rgba(0, 0, 0, .05);
+        border-radius: 2px;
+        color: $colorBlack30;
+        font-size: .75rem;
+        line-height: 24px;
+        text-align: center;
+        width: 32px;
+    }
+}

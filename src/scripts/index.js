@@ -1,4 +1,5 @@
 import 'alpinejs';
+
 const css = require('../scss/index.scss').toString();
 
 (function () {
